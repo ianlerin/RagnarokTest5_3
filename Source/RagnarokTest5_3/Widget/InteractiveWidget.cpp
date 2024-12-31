@@ -15,26 +15,25 @@ void UInteractiveWidget::NativeConstruct()
 	}
 	UpdateLabelText();
 	UpdateButtonText();
-	
-	ACharacter* Char=UGameplayStatics::GetPlayerCharacter(this, 0);
-	if (Char)
-	{
-		SetupAttributeListener(Char);
-	}
-
+	SetupAttributeListener();
 }
 
 
-void UInteractiveWidget::SetupAttributeListener(ACharacter* Char)
+void UInteractiveWidget::SetupAttributeListener()
 {
-	AActor* Actor = Cast<AActor>(Char);
-	UAbilitySystemComponent* Component = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Actor);
-	Component->GetGameplayAttributeValueChangeDelegate(HealthAttribute).AddUObject(this, &UInteractiveWidget::OnHealthChanged);
-	bool bFound = false;
-	//setup initial max health and percent
-	MaxHealth=Component->GetGameplayAttributeValue(MaxHealthAttribute, bFound);
-	float Percent = Component->GetGameplayAttributeValue(HealthAttribute, bFound) / MaxHealth;
-	ProgressBar->SetPercent(Percent);
+	ACharacter* Char = UGameplayStatics::GetPlayerCharacter(this, 0);
+	if (Char)
+	{
+		//setup listener for future changes
+		AActor* Actor = Cast<AActor>(Char);
+		UAbilitySystemComponent* Component = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Actor);
+		Component->GetGameplayAttributeValueChangeDelegate(HealthAttribute).AddUObject(this, &UInteractiveWidget::OnHealthChanged);
+		bool bFound = false;
+		//setup initial max health and percent
+		MaxHealth = Component->GetGameplayAttributeValue(MaxHealthAttribute, bFound);
+		float Percent = Component->GetGameplayAttributeValue(HealthAttribute, bFound) / MaxHealth;
+		ProgressBar->SetPercent(Percent);
+	}
 
 }
 
@@ -48,8 +47,10 @@ void UInteractiveWidget::UpdateButtonText()
 {
 	if (ButtonTextBlock)
 	{
-		FString MyString = FString::Printf(TEXT("%.2f"), TimerHeld);
-		ButtonTextBlock->SetText(FText::FromString(MyString));
+		FString MyText = ButtonText;
+		MyText += " ";
+		MyText += FString::Printf(TEXT("%.2f"), TimerHeld);
+		ButtonTextBlock->SetText(FText::FromString(MyText));
 	}
 }
 

@@ -144,20 +144,16 @@ void ARagnarokTest5_3Character::Look(const FInputActionValue& Value)
 
 void ARagnarokTest5_3Character::InitializeAttributes()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ARagnarokTest5_3Character::InitializeAttributes"));
 	if (!IsValid(GetAbilitySystemComponent()))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ARagnarokTest5_3Character::InitializeAttributes, no asc"));
 		return;
 	}
 
 	if (!DefaultAttributes)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ARagnarokTest5_3Character::InitializeAttributes, no default"));
 		return;
 	}
 
-	// Can run on Server and Client
 	FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
 	EffectContext.AddSourceObject(this);
 
@@ -201,7 +197,6 @@ void ARagnarokTest5_3Character::AddCharacterAbilities()
 			int32 ID = static_cast<int32>(StartupAbility.GetDefaultObject()->AbilityInputID);
 			auto Handle = GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(StartupAbility, 1, ID, this));
 		}
-		
 	}
 }
 
@@ -229,7 +224,6 @@ void ARagnarokTest5_3Character::CreateInteractWidget()
 	{
 		MyInteractWidget->AddToViewport();
 		MyInteractWidget->Hide();
-
 	}
 }
 

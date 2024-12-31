@@ -43,7 +43,7 @@ protected:
 	float TimerHeld = 0;
 
 	UPROPERTY(EditDefaultsOnly)
-	FText ButtonText = FText::FromString("MyButton");
+	FString ButtonText = "MyButton";
 	UPROPERTY(EditDefaultsOnly)
 	FGameplayAttribute HealthAttribute;
 	UPROPERTY(EditDefaultsOnly)
@@ -56,7 +56,7 @@ protected:
 	void OnButtonPressed();
 	void UpdateLabelText();
 	void UpdateButtonText();
-	void SetupAttributeListener(ACharacter* Char);
+	void SetupAttributeListener();
 	void OnHealthChanged(const FOnAttributeChangeData& Data);
 
 public:

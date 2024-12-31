@@ -7,10 +7,7 @@
 void UMyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
-	if (Data.EvaluatedData.Attribute == GetMaxHealthAttribute())
-	{
-		//SetMaxHealth();
-	}
+	//clamp health between zero and maxhealth
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
